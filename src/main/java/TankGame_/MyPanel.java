@@ -12,12 +12,12 @@ import java.awt.event.KeyListener;
  */
 public class MyPanel extends JPanel implements KeyListener {
     //定义坦克
-    Hero hero1 = null;
+    Hero hero = null;
     Tank Enemy1 = null;
     Tank Enemy2 = null;
     Tank Enemy3 = null;
     public MyPanel() {
-        hero1 = new Hero(100, 100);//初始化自己坦克
+        hero = new Hero(100, 100);//初始化自己坦克
         Enemy1 = new Tank(200, 100);
         Enemy2 = new Tank(300, 100);
         Enemy3 = new Tank(400, 100);
@@ -29,7 +29,7 @@ public class MyPanel extends JPanel implements KeyListener {
         super.paint(g);
         g.fillRect(0, 0, 1000, 750);//填充矩形，默认黑色
         //画出坦克
-        drawTank(hero1.getX(), hero1.getY(), g, hero1.getDirection(), 0);//自己的坦克
+        drawTank(hero.getX(), hero.getY(), g, hero.getDirection(), 0);//自己的坦克
         drawTank(Enemy1.getX(), Enemy1.getY(), g, 2, 1);
         drawTank(Enemy2.getX(), Enemy2.getY(), g, 2, 1);
         drawTank(Enemy3.getX(), Enemy3.getY(), g, 2, 1);
@@ -95,17 +95,17 @@ public class MyPanel extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-            hero1.setDirection(0);
-            hero1.moveUp();
+            hero.setDirection(0);
+            hero.moveUp();
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            hero1.setDirection(1);
-            hero1.moveRight();
+            hero.setDirection(1);
+            hero.moveRight();
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            hero1.setDirection(2);
-            hero1.moveDown();
+            hero.setDirection(2);
+            hero.moveDown();
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            hero1.setDirection(3);
-            hero1.moveLeft();
+            hero.setDirection(3);
+            hero.moveLeft();
         }
         //坦克重绘
         this.repaint();
