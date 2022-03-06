@@ -2,19 +2,25 @@ package TankGame_;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  * @author Obamazzz
  * @version 1.0
  * 绘图区域
  */
-public class MyPanel extends JPanel{
+public class MyPanel extends JPanel implements KeyListener {
     //定义坦克
     Hero hero1 = null;
-    Hero hero2 = null;
+    Tank Enemy1 = null;
+    Tank Enemy2 = null;
+    Tank Enemy3 = null;
     public MyPanel() {
         hero1 = new Hero(100, 100);//初始化自己坦克
-        hero2 = new Hero(200, 100);
+        Enemy1 = new Tank(200, 100);
+        Enemy2 = new Tank(300, 100);
+        Enemy3 = new Tank(400, 100);
 
     }
 
@@ -23,11 +29,14 @@ public class MyPanel extends JPanel{
         super.paint(g);
         g.fillRect(0, 0, 1000, 750);//填充矩形，默认黑色
         //画出坦克
-        drawTank(hero1.getX(), hero1.getY(), g, 0, 0);//向上，自己的坦克
-        drawTank(hero2.getX(), hero2.getY(), g, 0, 1);
+        drawTank(hero1.getX(), hero1.getY(), g, hero1.getDirection(), 0);//自己的坦克
+        drawTank(Enemy1.getX(), Enemy1.getY(), g, 2, 1);
+        drawTank(Enemy2.getX(), Enemy2.getY(), g, 2, 1);
+        drawTank(Enemy3.getX(), Enemy3.getY(), g, 2, 1);
     }
 
     /**
+     * 绘制坦克方法
      * @param x 坦克左上角x坐标
      * @param y 坦克左上角y坐标
      * @param g 画笔
@@ -50,10 +59,60 @@ public class MyPanel extends JPanel{
                 g.fill3DRect(x + 30, y,10, 60, false);//右轮
                 g.fill3DRect(x + 10, y + 10, 20 , 40, false);//坦克中间
                 g.fillOval(x + 10, y + 20, 20, 20);//画出圆盖
-                g.drawLine(x + 20, y, x + 20, y + 30);
+                g.drawLine(x + 20, y, x + 20, y + 30);//炮筒
+                break;
+            case 1://向右
+                g.fill3DRect(x-10, y+10, 60, 10, false);//左轮
+                g.fill3DRect(x-10, y + 40,60, 10, false);//右轮
+                g.fill3DRect(x, y + 20, 40 , 20, false);//坦克中间
+                g.fillOval(x + 10, y + 20, 20, 20);//画出圆盖
+                g.drawLine(x + 20, y + 30, x + 50, y + 30);//炮筒
+                break;
+            case 2://向下
+                g.fill3DRect(x, y, 10, 60, false);//左轮
+                g.fill3DRect(x + 30, y,10, 60, false);//右轮
+                g.fill3DRect(x + 10, y + 10, 20 , 40, false);//坦克中间
+                g.fillOval(x + 10, y + 20, 20, 20);//画出圆盖
+                g.drawLine(x + 20, y + 60, x + 20, y + 30);//炮筒
+                break;
+            case 3://向左
+                g.fill3DRect(x-10, y+10, 60, 10, false);//左轮
+                g.fill3DRect(x-10, y + 40,60, 10, false);//右轮
+                g.fill3DRect(x, y + 20, 40 , 20, false);//坦克中间
+                g.fillOval(x + 10, y + 20, 20, 20);//画出圆盖
+                g.drawLine(x + 20, y + 30, x - 10, y + 30);//炮筒
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
+            hero1.setDirection(0);
+            hero1.moveUp();
+        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            hero1.setDirection(1);
+            hero1.moveRight();
+        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            hero1.setDirection(2);
+            hero1.moveDown();
+        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            hero1.setDirection(3);
+            hero1.moveLeft();
+        }
+        //坦克重绘
+        this.repaint();
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
