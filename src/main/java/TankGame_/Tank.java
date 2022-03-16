@@ -9,18 +9,23 @@ public class Tank {
     private int y;//坦克纵坐标
     private int direction;//方向
     private int speed = 1;//速度，默认为1
+
     public void moveUp() {
-        y-=speed;
+        y -= speed;
     }
+
     public void moveRight() {
-        x+=speed;
+        x += speed;
     }
+
     public void moveDown() {
-        y+=speed;
+        y += speed;
     }
+
     public void moveLeft() {
-        x-=speed;
+        x -= speed;
     }
+
     public Tank(int x, int y) {
         this.x = x;
         this.y = y;

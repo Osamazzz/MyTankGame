@@ -14,7 +14,7 @@ public class BallMove extends JFrame {
     // java事件处理是采取委派事件模型，当事件发生时，
     // 产生事件的对象会把此信息传递给监听者来处理，
     // 信息就是java.awt.event事件类库里某个类所创建的对象
-    MyPanel mp = null;
+    MyPanel mp;
     public static void main(String[] args) {
         BallMove ballMove = new BallMove();
 
@@ -50,8 +50,6 @@ class MyPanel extends Panel implements KeyListener {
             x++;
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT){
             x--;
-        } else {
-
         }
         this.repaint();//repaint调用来使程序调用paint->重绘->移动
     }
