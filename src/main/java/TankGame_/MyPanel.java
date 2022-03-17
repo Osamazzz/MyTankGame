@@ -50,7 +50,6 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
 
     /**
      * 绘制坦克方法
-     *
      * @param x         坦克左上角x坐标
      * @param y         坦克左上角y坐标
      * @param g         画笔
