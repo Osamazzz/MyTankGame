@@ -45,9 +45,11 @@ public class Shot implements Runnable {
         this.speed = speed;
     }
 
+
     public boolean isLive() {
         return isLive;
     }
+
 
     public void setLive(boolean live) {
         isLive = live;

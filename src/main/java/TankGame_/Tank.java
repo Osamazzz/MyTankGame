@@ -8,22 +8,30 @@ public class Tank {
     private int x;//坦克横坐标
     private int y;//坦克纵坐标
     private int direction;//方向
-    private int speed = 1;//速度，默认为1
+    private int speed = 2;//速度，默认为1
 
     public void moveUp() {
-        y -= speed;
+        if (y >= 0) {
+            y -= speed;
+        }
     }
 
     public void moveRight() {
-        x += speed;
+        if (x <= (1000 - 50)) {
+            x += speed;
+        }
     }
 
     public void moveDown() {
-        y += speed;
+        if (y <= (750 - 60)) {
+            y += speed;
+        }
     }
 
     public void moveLeft() {
-        x -= speed;
+        if (x >= 10) {
+            x -= speed;
+        }
     }
 
     public Tank(int x, int y) {
