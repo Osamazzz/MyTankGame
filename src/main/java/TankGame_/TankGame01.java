@@ -19,7 +19,7 @@ public class TankGame01 extends JFrame {//窗口
         mp = new MyPanel();
         new Thread(mp).start();//启动myPanel线程
         this.add(mp);//游戏区
-        this.setSize(1000, 750);
+        this.setSize(1020, 800);
         this.addKeyListener(mp);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);//可视化

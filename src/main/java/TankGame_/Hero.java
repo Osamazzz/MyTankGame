@@ -7,13 +7,17 @@ import java.util.Vector;
  * @version 1.0
  */
 public class Hero extends Tank {
-    Shot shot = null;//射击线程
+    Shot shot;//射击线程
     Vector<Shot> shotList = new Vector<>();
+
     public Hero(int x, int y) {
         super(x, y);
     }
 
     public void shotStart() {
+        if (shotList.size() == 5) {
+            return;
+        }
         //根据当先对象的坐标和方向来创建shot对象
         switch (getDirection()) {
             case 0://向上
@@ -31,6 +35,7 @@ public class Hero extends Tank {
             default:
                 break;
         }
+        //把新建的shot加入到集合中
         shotList.add(shot);
         new Thread(shot).start();
     }

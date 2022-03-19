@@ -9,7 +9,7 @@ public class Shot implements Runnable {
     private int x;//子弹x坐标
     private int y;//子弹y坐标
     private int direct = 0;//子弹方向
-    private int speed = 2;//子弹速度
+    private int speed = 4;//子弹速度
     private boolean isLive = true;
     boolean flag = true;
 
@@ -84,7 +84,9 @@ public class Shot implements Runnable {
                     break;
             }
             //子弹进入边界时需要进行销毁
-            if (!(x >= 0 && x <= 1000 && y >= 0 && y <= 750)) {
+            //子弹碰到敌人坦克时(子弹死亡)也应该结束线程
+            if (!(x >= 0 && x <= 1000 && y >= 0 && y <= 750 && isLive)) {
+                System.out.println("子弹线程结束");
                 isLive = false;
                 break;
             }

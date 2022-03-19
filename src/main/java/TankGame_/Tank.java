@@ -11,25 +11,25 @@ public class Tank {
     private int speed = 2;//速度，默认为1
 
     public void moveUp() {
-        if (y >= 0) {
+        if (y > 0) {
             y -= speed;
         }
     }
 
     public void moveRight() {
-        if (x <= (1000 - 50)) {
+        if (x < (1000 - 50)) {
             x += speed;
         }
     }
 
     public void moveDown() {
-        if (y <= (750 - 60)) {
+        if (y < (750 - 60)) {
             y += speed;
         }
     }
 
     public void moveLeft() {
-        if (x >= 10) {
+        if (x > 10) {
             x -= speed;
         }
     }
