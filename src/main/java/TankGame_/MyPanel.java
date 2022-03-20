@@ -17,7 +17,6 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
     Vector<Enemy> enemies = new Vector<>();
     //用于存放炸弹,当子弹击中坦克时就加入一个bomb对象到bombs
     Vector<Bomb> bombs = new Vector<>();
-    int count = 0;
     //定义两张图片用于显示爆炸效果
     Image image1;
     Image image2;
@@ -46,7 +45,9 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
         super.paint(g);
         g.fillRect(0, 0, 1000, 750);//填充矩形，默认黑色
         //画出自己的坦克
-        drawTank(hero.getX(), hero.getY(), g, hero.getDirection(), 0);//自己的坦克
+        if (hero != null && hero.isLive()) {
+            drawTank(hero.getX(), hero.getY(), g, hero.getDirection(), 0);//自己的坦克
+        }
         //画出敌人的坦克
         for (int i = 0; i < enemies.size(); i++) {
             //取出集合中的敌人坦克
@@ -54,14 +55,6 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
             if (enemyTank.isLive()) {
                 drawTank(enemyTank.getX(), enemyTank.getY(), g, enemyTank.getDirection(), 1);
             }
-//            count++;
-//            if (count == 100) {//每隔一段时间敌人发射子弹
-//                Shot shot_ = new Shot(enemyTank.getX() + 20, enemyTank.getY() + 60, enemyTank.getDirection());//给敌人加入子弹
-//                enemyTank.shots.add(shot_);
-//                //启动shot线程
-//                new Thread(shot_).start();
-//                count = 0;
-//            }
             //画出enemyTank的所有子弹
             for (int j = 0; j < enemyTank.shots.size(); j++) {
                 //取出敌人的子弹
@@ -179,35 +172,51 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
     }
 
     //判断我方子弹是否击中敌人
-    public void hitTank(Shot s, Enemy enemy) {
-        switch (enemy.getDirection()) {
+    public void hitTank(Shot s, Tank tank) {
+        switch (tank.getDirection()) {
             case 0://向上
             case 2://向下
                 //子弹进入坦克区域
-                if (s.getX() > enemy.getX() && s.getX() < enemy.getX() + 40
-                        && s.getY() > enemy.getY() && s.getY() < enemy.getY() + 60) {
+                if (s.getX() > tank.getX() && s.getX() < tank.getX() + 40
+                        && s.getY() > tank.getY() && s.getY() < tank.getY() + 60) {
                     s.setLive(false);//只是让子弹消失，子弹线程并未退出(假死亡)
-                    enemy.setLive(false);
-                    enemies.remove(enemy);//死亡则移除
+                    tank.setLive(false);
+                    enemies.remove(tank);//死亡则移除
                     //创建Bomb对象
-                    Bomb bomb = new Bomb(enemy.getX(), enemy.getY());
+                    Bomb bomb = new Bomb(tank.getX(), tank.getY());
                     bombs.add(bomb);
                 }
                 break;
             case 1:
             case 3:
-                if (s.getX() > enemy.getX() - 10 && s.getX() < enemy.getX() + 50
-                        && s.getY() > enemy.getY() + 10 && s.getY() < enemy.getY() + 50) {
+                if (s.getX() > tank.getX() - 10 && s.getX() < tank.getX() + 50
+                        && s.getY() > tank.getY() + 10 && s.getY() < tank.getY() + 50) {
                     s.setLive(false);
-                    enemy.setLive(false);
-                    enemies.remove(enemy);//死亡则移除
+                    tank.setLive(false);
+                    enemies.remove(tank);//死亡则移除
                     //创建Bomb对象
-                    Bomb bomb = new Bomb(enemy.getX(), enemy.getY());
+                    Bomb bomb = new Bomb(tank.getX(), tank.getY());
                     bombs.add(bomb);
                 }
                 break;
             default:
                 break;
+        }
+    }
+
+    //判断敌人坦克子弹是否击中自己的坦克
+    public void hitHero() {
+        for (int i = 0; i < enemies.size(); i++) {
+            Enemy enemy = enemies.get(i);
+            //遍历敌方坦克的子弹集合
+            for (int j = 0; j < enemy.shots.size(); j++) {
+                //取出子弹
+                Shot shot = enemy.shots.get(j);
+                //判断子弹是否击中自己的坦克
+                if (hero.isLive() && shot.isLive()) {//自己的坦克和敌方的子弹存活
+                    hitTank(shot, hero);
+                }
+            }
         }
     }
 
@@ -262,11 +271,13 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                 if (hero.shotList.get(j) != null && hero.shotList.get(j).isLive()) {
                     //千万别用foreach进行遍历，因为foreach本质是迭代器，
                     // 如果在迭代时同时进行修改操作就会抛出异常！
-                    for (int i =0 ;i<enemies.size(); i++) {//遍历所有坦克
+                    for (int i = 0; i < enemies.size(); i++) {//遍历所有坦克
                         hitTank(hero.shotList.get(j), enemies.get(i));
                     }
                 }
             }
+            //判断敌方坦克是否击中我们
+            hitHero();
             //每隔一段时间重绘绘图区
             this.repaint();
         }

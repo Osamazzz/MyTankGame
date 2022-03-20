@@ -9,6 +9,15 @@ public class Tank {
     private int y;//坦克纵坐标
     private int direction;//方向
     private int speed = 2;//速度，默认为1
+    private boolean isLive = true;
+
+    public boolean isLive() {
+        return isLive;
+    }
+
+    public void setLive(boolean live) {
+        isLive = live;
+    }
 
     public void moveUp() {
         if (y > 0) {

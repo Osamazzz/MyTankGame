@@ -10,6 +10,7 @@ public class Hero extends Tank {
     Shot shot;//射击线程
     Vector<Shot> shotList = new Vector<>();
 
+
     public Hero(int x, int y) {
         super(x, y);
     }

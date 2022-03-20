@@ -28,7 +28,7 @@ public class Enemy extends Tank implements Runnable {
     public void run() {
         while (true) {
             //如果敌人坦克的子弹消失了
-            if (isLive && shots.size() < 1) {
+            if (isLive && shots.size() < 3) {
                 Shot s = null;
                 switch (getDirection()) {
                     case 0:
